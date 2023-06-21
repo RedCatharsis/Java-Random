@@ -7,22 +7,22 @@ public class SimpleSieve {
     System.out.println("Enter an upper bound: ");
     int upper_bound = sc.nextInt();
 
-    boolean[] isPrime = new boolean[upper_bound + 1];
+    boolean[] Sieve = new boolean[upper_bound + 1];
     for (int i = 2; i <= upper_bound; i++) {
-      isPrime[i] = true;
+      Sieve[i] = true;
     }
 
     for (int i = 2; i * i <= upper_bound; i++) {
-      if (isPrime[i]) {
+      if (Sieve[i]) {
         for (int j = i * i; j <= upper_bound; j = j+i) {
-          isPrime[j] = false;
+          Sieve[j] = false;
         }
       }
     }
 
     String primes = "";
     for (int i = 2; i <= upper_bound; i++) {
-      if (isPrime[i]) {
+      if (Sieve[i]) {
         primes += i + ", ";
       }
     }

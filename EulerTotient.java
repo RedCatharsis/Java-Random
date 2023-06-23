@@ -5,11 +5,11 @@ public class EulerTotient {
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
 
-        System.out.print("Enter a number: ");
-        int n = sc.nextInt();
-
         System.out.print("Enter an upper bound: ");
         int a = sc.nextInt();
+
+        System.out.print("Enter a number: ");
+        int n = sc.nextInt();
 
         int fi = 0;
         for (int i = 1; i <= a; i++) {

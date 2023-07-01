@@ -12,17 +12,9 @@ public class AStar{
         int[][] grid = new int[gridSize][gridSize];
 
         for(int i = 0; i < gridSize; i++){for(int j = 0; j < gridSize; j++){grid[i][j] = 0;}}
+        for (int i = 0; i < obstacleSize; i++){int x = (int)(Math.random()*gridSize); int y = (int)(Math.random()*gridSize); grid[x][y] = 1;}
 
-        for (int i = 0; i < obstacleSize; i++){
-            int x = (int)(Math.random()*gridSize);
-            int y = (int)(Math.random()*gridSize);
-            grid[x][y] = 1;
-        }
-
-        int playerX = 0;
-        int playerY = 0;
-        int enemyX = gridSize - 1;
-        int enemyY = gridSize - 1;
+        int playerX = 0; int playerY = 0; int enemyX = gridSize - 1; int enemyY = gridSize - 1;
 
         PriorityQueue<Node> openQueue = new PriorityQueue<Node>();
         Set<Node> closedQueue = new HashSet<>();
@@ -32,20 +24,13 @@ public class AStar{
         while(!openQueue.isEmpty()){
             Node currentNode = openQueue.poll();
 
-            if(currentNode.x == enemyX && currentNode.y == enemyY){
-                System.out.println("Found!");
-                break;
-            }
+            if(currentNode.x == enemyX && currentNode.y == enemyY){System.out.println("Found!"); break;}
             closedQueue.add(currentNode);
 
             for(int i = -1; i<=1; i++){
-                for(int j = -1; j<=i; j++){
-                    int newX = currentNode.x + 1;
-                    int newY = currentNode.y + 1;
-
-                    if(newX < 0 || newX >= gridSize || newY < 0 || newY >= gridSize || grid[newX][newY] == 1){
-                        continue;
-                    }
+                for(int j = -1; j<=i; j++){int newX = currentNode.x + 1; int newY = currentNode.y + 1;
+                    if(newX < 0 || newX >= gridSize || newY < 0 || newY >= gridSize || grid[newX][newY] == 1){continue;}
+                    
                 Node newNode = new Node(newX, newY, currentNode.c + 1);
                 openQueue.add(newNode);
                 }
@@ -54,20 +39,10 @@ public class AStar{
     }
 
     static class Node implements Comparable<Node>{
-        int x;
-        int y; 
-        int c;
+        int x; int y; int c;
 
-        public Node(int x, int y, int c){
-            this.x = x;
-            this.y = y;
-            this.c = c;
-        }
-    
+        public Node(int x, int y, int c){this.x = x; this.y = y; this.c = c; }
 
-        @Override
-        public int compareTo(AStar.Node o) {
-                        return this.c = AStar.c;
-        }
+        @Override public int compareTo(AStar.Node o) {return this.c = AStar.c;}
     }
 }

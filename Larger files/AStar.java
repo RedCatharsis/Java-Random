@@ -1,87 +1,73 @@
 import java.util.*;
 
-public class AStar {
+public class AStar{
 
-    private static final int GRID_SIZE = 500;
-    private static final int OBSTACLE_COUNT = 10;
+
+    private static final int gridSize = 500;
+    private static final int obstacleSize = 100;
+    public static final int c = 0;
+    
 
     public static void main(String[] args) {
-        // Create a grid of blocks
-        int[][] grid = new int[GRID_SIZE][GRID_SIZE];
-        for (int i = 0; i < GRID_SIZE; i++) {
-            for (int j = 0; j < GRID_SIZE; j++) {
-                grid[i][j] = 0;
-            }
-        }
+        int[][] grid = new int[gridSize][gridSize];
 
-        // Place obstacles on the grid
-        for (int i = 0; i < OBSTACLE_COUNT; i++) {
-            int x = (int) (Math.random() * GRID_SIZE);
-            int y = (int) (Math.random() * GRID_SIZE);
+        for(int i = 0; i < gridSize; i++){for(int j = 0; j < gridSize; j++){grid[i][j] = 0;}}
+
+        for (int i = 0; i < obstacleSize; i++){
+            int x = (int)(Math.random()*gridSize);
+            int y = (int)(Math.random()*gridSize);
             grid[x][y] = 1;
         }
 
-        // Create the player and enemy
         int playerX = 0;
         int playerY = 0;
-        int enemyX = GRID_SIZE - 1;
-        int enemyY = GRID_SIZE - 1;
+        int enemyX = gridSize - 1;
+        int enemyY = gridSize - 1;
 
-        // Initialize the A* algorithm
-        PriorityQueue<Node> openList = new PriorityQueue<>();
-        Set<Node> closedList = new HashSet<>();
+        PriorityQueue<Node> openQueue = new PriorityQueue<Node>();
+        Set<Node> closedQueue = new HashSet<>();
         Node startNode = new Node(playerX, playerY, 0);
-        openList.add(startNode);
+        openQueue.add(startNode);
 
-        // Start the A* search
-        while (!openList.isEmpty()) {
-            Node currentNode = openList.poll();
+        while(!openQueue.isEmpty()){
+            Node currentNode = openQueue.poll();
 
-            // Check if the current node is the enemy
-            if (currentNode.x == enemyX && currentNode.y == enemyY) {
-                System.out.println("Found the enemy!");
+            if(currentNode.x == enemyX && currentNode.y == enemyY){
+                System.out.println("Found!");
                 break;
             }
+            closedQueue.add(currentNode);
 
-            // Add the current node to the closed list
-            closedList.add(currentNode);
+            for(int i = -1; i<=1; i++){
+                for(int j = -1; j<=i; j++){
+                    int newX = currentNode.x + 1;
+                    int newY = currentNode.y + 1;
 
-            // Expand the current node
-            for (int i = -1; i <= 1; i++) {
-                for (int j = -1; j <= 1; j++) {
-                    int newX = currentNode.x + i;
-                    int newY = currentNode.y + j;
-
-                    // Check if the new node is valid
-                    if (newX < 0 || newX >= GRID_SIZE || newY < 0 || newY >= GRID_SIZE || grid[newX][newY] == 1) {
+                    if(newX < 0 || newX >= gridSize || newY < 0 || newY >= gridSize || grid[newX][newY] == 1){
                         continue;
                     }
-
-                    // Create a new node for the new position
-                    Node newNode = new Node(newX, newY, currentNode.cost + 1);
-
-                    // Add the new node to the open list
-                    openList.add(newNode);
+                Node newNode = new Node(newX, newY, currentNode.c + 1);
+                openQueue.add(newNode);
                 }
             }
         }
     }
 
-    static class Node implements Comparable<Node> {
-
+    static class Node implements Comparable<Node>{
         int x;
-        int y;
-        int cost;
+        int y; 
+        int c;
 
-        public Node(int x, int y, int cost) {
+        public Node(int x, int y, int c){
             this.x = x;
             this.y = y;
-            this.cost = cost;
+            this.c = c;
         }
+    
 
         @Override
-        public int compareTo(Node otherNode) {
-            return this.cost - otherNode.cost;
+        public int compareTo(AStar.Node o) {
+                        return this.c = AStar.c;
         }
     }
 }

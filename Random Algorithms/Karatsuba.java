@@ -7,24 +7,19 @@ public class Karatsuba {
             return x * y;
         }
         
-        // Calculate the number of digits in x and y
         long n = Math.max(String.valueOf(x).length(), String.valueOf(y).length());
         
-        // Calculate the value of m, the midpoint for splitting x and y
         long m = n / 2;
         
-        // Split x and y into high and low parts
         long a = x / (long) Math.pow(10, m);
         long b = x % (long) Math.pow(10, m);
         long c = y / (long) Math.pow(10, m);
         long d = y % (long) Math.pow(10, m);
         
-        // Recursive steps of the Karatsuba algorithm
         long ac = karatsubaMultiplication(a, c);
         long bd = karatsubaMultiplication(b, d);
         long adPlusbc = karatsubaMultiplication(a + b, c + d) - ac - bd;
         
-        // Combine the results to get the final product
         long result = ac * (long) Math.pow(10, 2 * m) + adPlusbc * (long) Math.pow(10, m) + bd;
         
         return result;

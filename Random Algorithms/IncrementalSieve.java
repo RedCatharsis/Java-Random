@@ -22,8 +22,6 @@ public class IncrementalSieve {
             }
         }
 
-        // Print the prime numbers
-        System.out.println("The prime numbers are:");
         for (int i = 2; i <= n; i++) {
             if (primes[i]) {
                 System.out.println(i);
